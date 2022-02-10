@@ -72,7 +72,7 @@
 </main>
 <footer>
     <div class="text-center p-4 bg-primary text-light">
-        &copy; {{ now() }} Copyright AllO'Doc
+        &copy; {{ now()->year }} Copyright AllO'Doc
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

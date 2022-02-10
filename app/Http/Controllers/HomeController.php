@@ -20,13 +20,13 @@ class HomeController extends Controller
         // liste des spécialités pour le moteur de recherche
         $specialities = Speciality::all();
 
-        // liste des villes des practiciens pour le moteur de recherche
+        // liste des villes des praticiens pour le moteur de recherche
         $practitioners = Practitioner::all();
         $cities = $practitioners->unique('city');
 
         return view('home', [
             "specialities" => $specialities,
-            "cities" => $cities
+            "cities"       => $cities,
         ]);
     }
 }
