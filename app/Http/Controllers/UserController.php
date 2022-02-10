@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AppointmentNotification;
+use App\Mail\UserRegisterNotification;
+use App\Models\Repositories\UserRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Repositories\AppointmentRepository;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -37,8 +41,8 @@ class UserController extends Controller
     {
         // règle de validation du formulaire d'inscription
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8'
+            'email'    => 'required|email',
+            'password' => 'required|min:8',
         ]);
 
         // Filtre les comptes actifs
@@ -89,13 +93,13 @@ class UserController extends Controller
     {
         // règle de validation du formulaire d'inscription
         $request->validate([
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'address' => 'required|max:255',
-            'zipcode' => 'required|max:5',
-            'city' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'firstname'       => 'required|max:255',
+            'lastname'        => 'required|max:255',
+            'address'         => 'required|max:255',
+            'zipcode'         => 'required|max:5',
+            'city'            => 'required|max:255',
+            'email'           => 'required|email|unique:users,email',
+            'password'        => 'required|min:8',
             'passwordConfirm' => 'required_with:password|same:password',
         ]);
 
@@ -104,8 +108,9 @@ class UserController extends Controller
         $user->name = $request->input("firstname") . ' ' . $request->input("lastname");
         $user->email = $request->input("email");
         $user->password = Hash::make($request->input("password"));
-        $user->status = 'active' ;
-        $user->role = 'patient' ;
+        $user->status = 'inactive';
+        $user->verification_code = sha1(time());
+        $user->role = 'patient';
         $user->save();
 
         // création du patient
@@ -118,6 +123,10 @@ class UserController extends Controller
         $patient->city = $request->input("city");
         $patient->user_id = $user->id;
         $patient->save();
+
+        if (!empty($user)) {
+            UserRepository::sendEmailInscription($user);
+        }
 
         // affichage de la vue de confirmation d'inscription
         return view('user/signupPatientConfirmation');
@@ -145,18 +154,18 @@ class UserController extends Controller
         if (Auth::user()->role == 'administrator') {
             // règle de validation du formulaire d'inscription pour les administrateurs
             $request->validate([
-                'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+                'email'           => 'required|email|unique:users,email,' . Auth::user()->id,
                 'passwordConfirm' => 'required_with:password|same:password',
             ]);
         } else {
-             // règle de validation du formulaire d'inscription pour les patients et praticiens
+            // règle de validation du formulaire d'inscription pour les patients et praticiens
             $request->validate([
-                'firstname' => 'required|max:255',
-                'lastname' => 'required|max:255',
-                'address' => 'required|max:255',
-                'zipcode' => 'required|max:5',
-                'city' => 'required|max:255',
-                'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+                'firstname'       => 'required|max:255',
+                'lastname'        => 'required|max:255',
+                'address'         => 'required|max:255',
+                'zipcode'         => 'required|max:5',
+                'city'            => 'required|max:255',
+                'email'           => 'required|email|unique:users,email,' . Auth::user()->id,
                 'passwordConfirm' => 'required_with:password|same:password',
             ]);
         }
@@ -236,7 +245,7 @@ class UserController extends Controller
         }
 
         // message d'erreur si le token n'est pas bon
-        if ($user->remember_token != $token) {
+        if ($user->verification_code != $token) {
             abort('403');
         }
 

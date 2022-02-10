@@ -1,5 +1,4 @@
 <div class="appointments d-md-flex w-100">
-
     @foreach ($practitioner->slots as $day => $slotDay)
     <div class="day mb-2 me-3">
         <time datetime="{{ $day }}">{{ $slotDay["label"] }}</time>

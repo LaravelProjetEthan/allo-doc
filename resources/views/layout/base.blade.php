@@ -32,7 +32,7 @@
                     @if (\Illuminate\Support\Facades\Auth::user())
                         <div class="pt-3">
                             <a class="nav-link text-white" href="{{ route('profile') }}">
-                                Mon profil ({{ \Illuminate\Support\Facades\Auth::user()->name }})
+                                Mon profil {{ \Illuminate\Support\Facades\Auth::user()->name !== null ? "(".\Illuminate\Support\Facades\Auth::user()->name . ")" : '' }}
                             </a>
                         </div>
 

@@ -20,7 +20,7 @@ class PatientSeeder extends Seeder
                 'id' => 1,
                 'firstname' => 'Ethan',
                 'lastname' => 'EL DIB',
-                'email' => 'ethan.eldib@gmail.com',
+                'email' => 'ethan@test.com',
                 'address' => '4 rue Danton',
                 'zipcode' => '27140',
                 'city' => 'Gisors',

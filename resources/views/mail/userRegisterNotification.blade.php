@@ -11,10 +11,9 @@
     <br>
     Pour valider votre adresse email, <a href="{{ route('validEmail', [
         'idUser' => $user->id,
-        'token' => $user->remember_token
+        'token' => $user->verification_code
     ]) }}">merci de cliquer sur ce lien</a><br>
     <br>
     AllO'Doc
-
 </body>
 </html>

@@ -110,7 +110,6 @@ class PractitionerPlanning
         }
     }
 
-
     /**
      * Récupère le rendez-vous pour le jour et l'heure ou renvoie une valeur null
      *

@@ -54,3 +54,7 @@
         height: 50vh;
     }
 }
+
+.btnPreviousNextWeek {
+    margin-left: 10px !important;
+}

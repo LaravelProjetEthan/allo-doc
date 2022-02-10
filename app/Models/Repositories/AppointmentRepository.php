@@ -48,7 +48,7 @@ class AppointmentRepository
             'practitioner',
         ])
     {
-        // envoi à mail à chaque personne concernée par la notification
+        // envoi un mail à chaque personne concernée par la notification
         foreach ($notify as $person) {
             if ($person == 'patient') {
                 Mail::to($model->patient->email)

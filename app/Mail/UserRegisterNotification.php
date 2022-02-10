@@ -32,7 +32,7 @@ class UserRegisterNotification extends Mailable
     public function build()
     {
         return $this
-            ->from("register@allodoc.com", "AllO'Doc")
+            ->from(env('MAIL_USERNAME'), "AllO'Doc")
             ->subject("Confirmation de votre adresse email")
             ->view('mail/userRegisterNotification', [
                 'user' => $this->user
