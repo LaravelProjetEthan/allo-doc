@@ -28,11 +28,11 @@
                         <!-- <a class="nav-link active" aria-current="page" href="#">Accueil</a> -->
                     </li>
                 </ul>
-                {{--<div class="d-flex">
+                <div class="d-flex">
                     @if (\Illuminate\Support\Facades\Auth::user())
                         <div class="pt-3">
-                            <a href="{{ route('profile') }}" class="text-light">
-                                Bonjour {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                            <a class="nav-link text-white" href="{{ route('profile') }}">
+                                Mon profil ({{ \Illuminate\Support\Facades\Auth::user()->name }})
                             </a>
                         </div>
 
@@ -59,7 +59,7 @@
                         <a class="btn btn-outline-light m-2" href="{{ route('login') }}">Connexion</a>
                         <a class="btn btn-info m-2" href="{{ route('signup') }}">Inscription</a>
                     @endif
-                </div>--}}
+                </div>
             </div>
         </div>
     </nav>

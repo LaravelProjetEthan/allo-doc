@@ -3,7 +3,7 @@
 @section('content')
 <div class="p-5" id="search-form">
     <h1 class="fw-bold text-light">Site de réservation de RDV médicaux</h1>
-    <form action="{{--{{ route('search-practitioner') }}--}}#" method="POST" class="row row-cols-auto row-cols-md-2 row-cols-lg-3 g-3">
+    <form action="{{ route('search-practitioner') }}" method="POST" class="row row-cols-auto row-cols-md-2 row-cols-lg-3 g-3">
         @csrf
         <div class="col-12 col-lg-4 col-xxl-3">
             <label class="visually-hidden" for="specialty">Spécialité du praticien recherché</label>
