@@ -55,7 +55,7 @@ class UserController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Les informations fournies ne correspondent à un utilisateur enregistré',
+            'email' => 'Les informations saisies sont incorrectes',
         ]);
     }
 
